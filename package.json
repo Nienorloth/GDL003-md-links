@@ -1,4 +1,15 @@
 {
-  "name": "md-links",
-  "version": "0.1.0"
+	"name": "md-links",
+	"version": "0.1.0",
+	"description": "módulo para validar enlaces en archivos markdown",
+	"author": "Mariana Rascón Montaño",
+	"scripts": {
+		"test": "jest"
+	},
+	"devDependencies": {
+		"jest": "^24.9.0"
+	},
+	"dependencies": {
+		"path": "^0.12.7"
+	}
 }
