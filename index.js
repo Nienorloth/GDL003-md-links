@@ -7,20 +7,20 @@ const linkRegEx = /[(](http.+)[)]/igm;
 //Function to identify markdown file:
 const pathExt = (pathName) => {
    if (path.extname(pathName) === ".md") {
-       console.log("Es un archivo markdown");
+       return "Es un archivo markdown";
     //    mdRead();
-       return true
+       
    } else {
-       console.log("No es un archivo markdown");
+      return "No es un archivo markdown";
     //    checkDir();
-       return false
+      
    }
 }
 
 //Function to read md file / 
 const mdRead = () => {
   
-  return  new Promise ( function (resolve, reject) {
+  return  new Promise (function (resolve, reject) {
 
         fs.readFile(pathName, "utf-8", (error, data) => {
             if (error) {
@@ -37,7 +37,7 @@ const mdRead = () => {
 
         mdRead()
         .catch(function (error) {
-            console.log(error.message);
+            console.log(error);
         })
         .then(function (mdRead) {
             const links = (mdRead.match(linkRegEx).map(e => e.replace(linkRegEx, "$1")));
@@ -48,7 +48,7 @@ const mdRead = () => {
     }
 
 //Read directory
-    const checkDir = (pathName) => {
+    const checkDir = () => {
         console.log('---->',pathName)
         return new Promise (function (resolve, reject) {
             
@@ -64,7 +64,7 @@ const mdRead = () => {
 };
 
 // Consume promise to get files in a directory
-const dirLinks = function (pathName) {
+const dirLinks = function () {
 
     checkDir(pathName)
     .catch(function (error) {
@@ -79,7 +79,7 @@ const dirLinks = function (pathName) {
 //Execute functions and show data
 console.log(pathExt(pathName));
 // console.log(mdRead(pathName));
-if (pathExt(pathName) == true) {console.log(getLinks(pathName));
+if (pathExt(pathName) === "Es un archivo markdown") {console.log(getLinks(pathName));
 } else {console.log(dirLinks(pathName));
 };
 

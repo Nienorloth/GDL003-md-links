@@ -7,7 +7,7 @@ test("provided path is an md file", () => {
 });
 
 test("provided file has links", () => {
-  return mdLinks.mdRead(linkRegEx.test("./README.md")).toBe(true);
+  return mdLinks.mdRead(linkRegEx.test("./README.md")).toBe("Es un archivo markdown");
 });
 
 
