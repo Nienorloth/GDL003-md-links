@@ -3,23 +3,22 @@ const fs = require("fs");
 const path = require("path");
 const pathName = process.argv[2];
 const linkRegEx = /[(](http.+)[)]/igm;
-// const directory = __dirname;
 
 //Function to identify markdown file:
-
 const pathExt = (pathName) => {
    if (path.extname(pathName) === ".md") {
-       console.log("El archivo es markdown");
-       mdRead();
+       console.log("Es un archivo markdown");
+    //    mdRead();
        return true
    } else {
-       console.log("El archivo no es markdown");
-       checkDir();
+       console.log("No es un archivo markdown");
+    //    checkDir();
        return false
    }
 }
-//Function to read md file / promise
-const mdRead = (path) => {
+
+//Function to read md file / 
+const mdRead = () => {
   
   return  new Promise ( function (resolve, reject) {
 
@@ -33,11 +32,12 @@ const mdRead = (path) => {
     });
 };
 
+//consume promise to get md file links
   const getLinks = function () {
 
         mdRead()
         .catch(function (error) {
-            console.log("No se encontraron links en el archivo");
+            console.log(error.message);
         })
         .then(function (mdRead) {
             const links = (mdRead.match(linkRegEx).map(e => e.replace(linkRegEx, "$1")));
@@ -47,10 +47,11 @@ const mdRead = (path) => {
         
     }
 
+//Read directory
     const checkDir = (pathName) => {
-
+        console.log('---->',pathName)
         return new Promise (function (resolve, reject) {
-
+            
         fs.readdir(pathName, "utf-8", (error, data) => {
             if (error) {
                 reject(error);
@@ -61,30 +62,26 @@ const mdRead = (path) => {
         });
     });
 };
-// checkDir(pathName, (data) => {console.log(data)});
 
-const dirLinks = function () {
+// Consume promise to get files in a directory
+const dirLinks = function (pathName) {
 
-    checkDir()
+    checkDir(pathName)
     .catch(function (error) {
-        console.log("No se encontraron links en el directorio");
+        console.log("No se encontraron archivos en el directorio");
     })
     .then(function (checkDir) {
-        const linksDir = (checkDir.match(linkRegEx).map(e => e.replace(linkRegEx, "$1")));
-        console.log(linksDir);
-        return linksDir
+        const dirFiles = (checkDir.data);
+        return dirFiles
     });
 }
 
-//     const createArray = (links) => {
-//     const linksArray = links.split("");
-//     console.log(linksArray);
-//     }
-// createArray();
-
+//Execute functions and show data
 console.log(pathExt(pathName));
-console.log(mdRead(pathName));
-console.log(checkDir(pathName));
-console.log(getLinks(pathName));
+// console.log(mdRead(pathName));
+if (pathExt(pathName) == true) {console.log(getLinks(pathName));
+} else {console.log(dirLinks(pathName));
+};
+
 
 
